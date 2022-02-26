@@ -3,11 +3,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import j2eelearn.j2eelearn.J2eeLearn;
+import j2eelearn.utils.Utils;
 
 import javax.swing.SwingConstants; 
 import java.awt.Color;
-import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -20,124 +19,117 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 
+/**
+ * Cette classe :
+ * - agrège EastPanel
+ * - compose un JPanel qui correspondant au bloc qui apparait à gauche et qui contient les différents chapitres ou
+ *  modules
+ * - Le JPanel pane contient des éléments qui déclent des évenements suite à un clic qui provoque une modification 
+ *  de EastPanel
+ */
 public class WestPanel {
     private JPanel pane;
     private EastPanel eastPane;
-    private int c = 0;
     private JLabel [] labels;
 
+    //constructeur 
     public WestPanel (EastPanel eastPane) {
-        Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
+        Dimension sc = Utils.getInstance().screen;
         this.eastPane = eastPane;
         this.pane = new JPanel();
         this.pane.setBorder(new EmptyBorder(25,1,1,1));
-        this.pane.setPreferredSize(new Dimension ((int)screen.getHeight()/5,(int)screen.getHeight()));
+        this.pane.setPreferredSize(new Dimension ((int)sc.getHeight()/5,(int)sc.getHeight()));
         this.pane.add(menuLeft(this.pane.getPreferredSize()));
 	    this.pane.setBackground(new Color(0xB0AFAE));
     }
+    /**
+     * retourne pane
+     */
     public JPanel getPane () {
         return this.pane;
     }
     
-    //crée un tableau de label des titres des chapitres
-    private JLabel [] createChapitre () {
-        JLabel [] chapitres = {
-            new JLabel("Chapitre 1"),new JLabel("Chapitre 2"),new JLabel("Chapitre 3"),
-            new JLabel("Chapitre 4"),new JLabel("Chapitre 5"),new JLabel("Chapitre 6"),
-            new JLabel("Chapitre 7")
-        };
-        Border lineborder = BorderFactory.createLineBorder(new Color(0xB0AFAE));
-        ImageIcon imH = new ImageIcon(J2eeLearn.class.getResource("/icons/course.png"));
-        int i = 0;
-        for (i = 0;i < chapitres.length; i ++ ) {
-            chapitres[i].setBorder(lineborder);
-            chapitres[i].setHorizontalAlignment(SwingConstants.LEFT);
-            chapitres[i].setIcon(new ImageIcon (imH.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH)));
-            chapitres[i].setIconTextGap(10);
-            chapitres[i].setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
-            chapitres[i].setOpaque(true);
-        }
-        return chapitres;
-    }
-    //Cette fonction efface le background de tous les Labels excepté celui à l'indice k (celui selectionné)
-    public void eraseBackground () {    
-       for (int i = 0;  i < this.labels.length; i ++) {
-            this. labels[i].setBackground(null);
-            this.labels[i].setForeground(Color.BLACK);
-        }
-    }
-    //cette fonction renvoie un JPanel des chapitres dont le click sur un chapitre renvoie sur le
-    //chapitre correspondant
+    /**
+     * 
+     * @param dim
+     * @return un JPanel contenant les chapitres ou modules sur les quels un clic déclence un évenèment
+     */
     public JPanel menuLeft (Dimension dim) {
-        JPanel left = new JPanel(new GridLayout(7,1));
-        Border lineborder = BorderFactory.createLineBorder(new Color(0xB0AFAE));
+        JPanel left = new JPanel(new GridLayout(Utils.getInstance().size(),1));//le JPanel de plusieurs lignes et 1 colonne
+
         left.setPreferredSize(new Dimension ((int)dim.getWidth()-15,(int)dim.getHeight()/3));
-        labels = createChapitre();
+        labels = Utils.getInstance().createChapitre();//les titres des chapitres ou modules
+        //un clic sur ce label provoque la modification de eastPane
         labels[0].addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                eraseBackground ();
-                labels[0].setBackground(new Color (0x228be6));
+                Utils.getInstance().eraseBackground(labels);//on efface la couleur de fond de tous les composants du panel left
+                labels[0].setBackground(new Color (0x228be6));//on colorie en bleu l'élement concerné
                 labels[0].setForeground(Color.WHITE);
                 eastPane.setPane(labels[0].getText());
                 
             }
         });
+        //un clic sur ce label provoque la modification de eastPane
         labels[1].addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                eraseBackground ();
-                labels[1].setBackground(new Color (0x228be6));
+                Utils.getInstance().eraseBackground(labels);//on efface la couleur de fond de tous les composants du panel left
+                labels[1].setBackground(new Color (0x228be6));//on colorie en bleu l'élement concerné
                 labels[1].setForeground(Color.WHITE);
-                eastPane.setPane(labels[1].getText());
+                eastPane.setPane(labels[1].getText());//modification de eastPane
                 
             }
         });
+        //un clic sur ce label provoque la modification de eastPane
         labels[2].addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                eraseBackground ();
-                labels[2].setBackground(new Color (0x228be6));
+                Utils.getInstance().eraseBackground(labels);//on efface la couleur de fond de tous les composants du panel left
+                labels[2].setBackground(new Color (0x228be6));//on colorie en bleu l'élement concerné
                 labels[2].setForeground(Color.WHITE);
-                eastPane.setPane(labels[2].getText());
+                eastPane.setPane(labels[2].getText());//modification de eastPane
                 
             }
         });
+        //un clic sur ce label provoque la modification de eastPane
         labels[3].addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                eraseBackground ();
-                labels[3].setBackground(new Color (0x228be6));
+                Utils.getInstance().eraseBackground(labels);//on efface la couleur de fond de tous les composants du panel left
+                labels[3].setBackground(new Color (0x228be6));//on colorie en bleu l'élement concerné
                 labels[3].setForeground(Color.WHITE);
-                eastPane.setPane(labels[3].getText());
+                eastPane.setPane(labels[3].getText());//modification de eastPane
             }
         });
+        //un clic sur ce label provoque la modification de eastPane
         labels[4].addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                eraseBackground ();
-                labels[4].setBackground(new Color (0x228be6));
+                Utils.getInstance().eraseBackground(labels);//on efface la couleur de fond de tous les composants du panel left
+                labels[4].setBackground(new Color (0x228be6));//on colorie en bleu l'élement concerné
                 labels[4].setForeground(Color.WHITE);
-                eastPane.setPane(labels[4].getText());
+                eastPane.setPane(labels[4].getText());//modification de eastPane
             }
         });
-
+        //un clic sur ce label provoque la modification de eastPane
         labels[5].addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                eraseBackground ();
-                labels[5].setBackground(new Color (0x228be6));
+                Utils.getInstance().eraseBackground(labels);//on efface la couleur de fond de tous les composants du panel left
+                labels[5].setBackground(new Color (0x228be6));//on colorie en bleu l'élement concerné
                 labels[5].setForeground(Color.WHITE);
-                eastPane.setPane(labels[5].getText());
+                eastPane.setPane(labels[5].getText());//modification de eastPane
             }
         });
+        //un clic sur ce label provoque la modification de eastPane
         labels[6].addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                eraseBackground ();
-                labels[6].setBackground(new Color (0x228be6));
+                Utils.getInstance().eraseBackground(labels);//on efface la couleur de fond de tous les composants du panel left
+                labels[6].setBackground(new Color (0x228be6));//on colorie en bleu l'élement concerné
                 labels[6].setForeground(Color.WHITE);
-                eastPane.setPane(labels[6].getText());
+                eastPane.setPane(labels[6].getText());//modification de eastPane
             }
         });
 
@@ -146,7 +138,7 @@ public class WestPanel {
         left.setBackground(Color.WHITE);
         return left;
     }
-
+    //Renvoie le tableau de labels des chapitres
     public JLabel [] getLabels () {
         return this.labels;
     }

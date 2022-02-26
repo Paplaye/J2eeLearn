@@ -3,7 +3,6 @@ package j2eelearn.contents;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -19,13 +18,17 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
-import j2eelearn.j2eelearn.J2eeLearn;
+import j2eelearn.utils.Utils;
 
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.BorderFactory;
 
-
+/***
+ * Cette classe :
+    - compose un JPanel entete qui represente l'entete de notre plugin
+    - agrège WestPanel et EastPanel
+ */
 public class EntetePane {
     private JPanel entete;
     private EastPanel eastPane;
@@ -34,16 +37,21 @@ public class EntetePane {
     public EntetePane (EastPanel eastPane,WestPanel westPane) {
         this.eastPane = eastPane;
         this.westPane = westPane;
-        this.entete = new JPanel(new GridLayout(2,1));
+        this.entete   = new JPanel(new GridLayout(2,1));
         this.entete.add(logoBar());
 		this.entete.add(menu());
     }
+    // getter qui renvoie le JPanel entete
     public JPanel getPane () {
-        return entete;
+        return this.entete;
     }
-    //Cette fonction renvoie un jpanel qui contient un jlabel positionner à gauche
+
+    /*Cette fonction :
+        - ne prend rien en argument
+        - elle renvoie un JPanel qui contient la barrière en bleu de l'entete qui fait office de loggo
+    */
     public JPanel logoBar () {
-		JPanel north = new JPanel(new FlowLayout (FlowLayout.LEFT));
+		JPanel north = new JPanel(Utils.getInstance().fleft);
 		JLabel logo = new JLabel ("J2eeLearn");
 		logo.setFont(new Font("Serif",Font.BOLD|Font.PLAIN,25));
 		logo.setForeground(Color.WHITE);
@@ -51,60 +59,62 @@ public class EntetePane {
 		north.add(logo);
 		return north;
 	}
-    //cette fonction renvoie un jpanel qui fait office de menu dont les éléments sont placés à gauche
-    //En meme temps une gestion des évènements provoqués par un clique sur un composant
+    /*Cette fonction :
+        - ne prend aucun argument
+        - elle retourne un JPanel qui contient des composants cliquable qui est la deuxième bannière de l'entete
+    */
 	public JPanel menu () {
-        JPanel west = new JPanel (new FlowLayout (FlowLayout.LEFT));
-        west.setBorder(BorderFactory.createLineBorder(new Color(0xB0AFAE)));
+        JPanel west = new JPanel (Utils.getInstance().fleft);//un JPanel dont les éléments sont à gauche
+        west.setBorder(Utils.getInstance().lineborder);//une bordure à ce composant
         
+        //la page d'accueil
         JLabel home = new JLabel();
-		ImageIcon imH = new ImageIcon(J2eeLearn.class.getResource("/icons/home.png"));
-		home.setIcon(new ImageIcon (imH.getImage().getScaledInstance(30, 40, Image.SCALE_SMOOTH)));
+		home.setIcon(Utils.getInstance().getImageIcon(30,40, "home.png"));
         west.add (home);
+        //un clic sur cet élément déclenche un un évenement qui change le contenu du Panel EST
         home.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                eastPane.setPane("Home");
-                westPane.eraseBackground();
+                eastPane.setPane("Home");//modification de eastPane
+                Utils.getInstance().eraseBackground(westPane.getLabels());
             }
         });
-        
+        //le glossaire
         JLabel glossaire = new JLabel();
-        ImageIcon imG = new ImageIcon(J2eeLearn.class.getResource("/icons/glossaire.png"));
-        glossaire.setIcon(new ImageIcon (imG.getImage().getScaledInstance(30, 40, Image.SCALE_SMOOTH)));
+        glossaire.setIcon(Utils.getInstance().getImageIcon(30,40, "glossaire.png"));
         west.add(glossaire);
+        //un clic sur cet élément déclenche un un évenement qui change le contenu du Panel EST
         glossaire.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                eastPane.setPane("Glossaire");
-                westPane.eraseBackground();
+                eastPane.setPane("Glossaire");//modification de eastPane
+                Utils.getInstance().eraseBackground(westPane.getLabels());
             }
         });
-
+        //la Faq
         JLabel faq = new JLabel();
-        ImageIcon imgF = new ImageIcon(J2eeLearn.class.getResource("/icons/faq.jpg"));
-        faq.setIcon(new ImageIcon (imgF.getImage().getScaledInstance(35, 45, Image.SCALE_SMOOTH)));
+        faq.setIcon(Utils.getInstance().getImageIcon(35,45, "faq.jpg"));
         west.add(faq);
+        //un clic sur cet élément déclenche un un évenement qui change le contenu du Panel EST
         faq.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                eastPane.setPane("Faq");
-                westPane.eraseBackground();
+                eastPane.setPane("Faq");//modification de eastPane
+                Utils.getInstance().eraseBackground(westPane.getLabels());
             }
         });
-
+        //Le help
         JLabel help = new JLabel();
-        ImageIcon imgHe = new ImageIcon(J2eeLearn.class.getResource("/icons/help.png"));
-        help.setIcon(new ImageIcon (imgHe.getImage().getScaledInstance(30, 40, Image.SCALE_SMOOTH)));
+        help.setIcon(Utils.getInstance().getImageIcon(30,40, "help.png"));
         west.add(help);
+        //un clic sur cet élément déclenche un un évenement qui change le contenu du Panel EST
         help.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                eastPane.setPane("Help");
-                westPane.eraseBackground();
+                eastPane.setPane("Help");//modification de eastPane
+                Utils.getInstance().eraseBackground(westPane.getLabels());
             }
         });
-        
 		west.setBackground(Color.WHITE);
 		return west;
 	}

@@ -1,49 +1,64 @@
 package j2eelearn.contents;
+
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JButton;
 import java.awt.Color;
 import java.awt.GridLayout;
 
+/***
+ * Cette classe compose un JPanel qui reprenste le bloc du milieu
+ */
 public class EastPanel {
     private JPanel pane;
 
     public EastPanel () {
-        String [] content = new String [70];
         this.pane = new JPanel(new GridLayout(1,1));
-        this.pane.add(bodyPane("Bienvenue Chez J2eeLearn", content,0));
+        this.pane.add(bodyPane("Bienvenue Chez J2eeLearn",0));
     }
+    //renvoie le JPanel pane
     public JPanel getPane () {
         return this.pane;
     }
-    public JPanel bodyPane (String titre,String [] content,int etat) {
-        BodyPane body = new BodyPane(titre, content,etat);
+    /**
+     * 
+     * @param titre : le titre du composant qui 
+     * @param etat  : un entier état 1 : pour les modules ou chapitres les autres 0
+     * @return un JPanel
+     */
+    public JPanel bodyPane (String titre,int etat) {
+        BodyPane body = new BodyPane(titre,etat);
         return body.getPane();
     }
+
+    /**
+     * 
+     * @param s : le titre de l'élément
+     * cette fonction est celle qui est appélée par WestPanel et EntetePanel après chaque clic
+     */
     public void setPane (String s) {
-        String [] content = new String [70];
         System.out.println(s);
         this.pane.removeAll();
         switch (s) {
             case "Home":
-                this.pane.add(bodyPane(s, content,0));
+                this.pane.add(bodyPane(s,0));
             break;
             case "Faq":
-                this.pane.add(bodyPane(s, content,0));
+                this.pane.add(bodyPane(s,0));
             break;
             case "Glossaire":
-                this.pane.add(bodyPane(s, content,0));
+                this.pane.add(bodyPane(s,0));
             break;
             case "Help":
-                this.pane.add(bodyPane(s, content,0));
+                this.pane.add(bodyPane(s,0));
             break;
             default:
-                this.pane.add(bodyPane(s, content,1));
+                //lorsqu'il s'agit des chapitres ou modules
+                this.pane.add(bodyPane(s,1));
             break;
         }
         this.pane.revalidate();
         this.pane.repaint();
-
         
     }
 }
